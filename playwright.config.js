@@ -34,15 +34,19 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     headless: false,
+    launchOptions: {
+      slowMo: 1000
+    },
 
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    video : 'retain-on-failure',
-    screenshot : 'only-on-failure',
+    video: 'retain-on-failure',
+    screenshot: 'only-on-failure',
     baseURL: process.env.BASE_URL, // 👈 dynamic baseURL
+
   },
 
   /* Configure projects for major browsers */
@@ -56,12 +60,12 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
+  
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
+  
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

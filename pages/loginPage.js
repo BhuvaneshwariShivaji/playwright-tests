@@ -1,11 +1,24 @@
 import dotenv from 'dotenv';
+import fs from 'fs';
 import path from 'path';
 
 const envFilePath = path.resolve(process.cwd(), '.env');
 const prodEnvFilePath = path.resolve(process.cwd(), '.env.prod');
 
-dotenv.config({ path: envFilePath });
-dotenv.config({ path: prodEnvFilePath });
+const loadEnvFile = (filePath) => {
+  if (!fs.existsSync(filePath)) {
+    return {};
+  }
+
+  return dotenv.parse(fs.readFileSync(filePath));
+};
+
+const repoEnv = {
+  ...loadEnvFile(envFilePath),
+  ...loadEnvFile(prodEnvFilePath),
+};
+
+const getRepoEnvValue = (key) => repoEnv[key] ?? '';
 
 export class LoginPage {
   constructor(page) {
@@ -29,22 +42,25 @@ export class LoginPage {
   }
 
   async login(username, password) {
-    const user = typeof username === 'string' ? username : process.env.USERNAME;
-    const pass = typeof password === 'string' ? password : process.env.PASSWORD;
+    const user = typeof username === 'string' ? username : getRepoEnvValue('USERNAME');
+    const pass = typeof password === 'string' ? password : getRepoEnvValue('PASSWORD');
+
     if (!user || !pass) {
-      throw new Error('Missing credentials: set USERNAME/PASSWORD in .env.prod or pass them to login()');
+      throw new Error('Missing credentials: set USERNAME/PASSWORD in .env or .env.prod or pass them to login()');
     }
+
     await this.fillUsername(user);
     await this.fillPassword(pass);
     await this.clickLoginButton();
   }
 
   async goto(pathValue = '') {
-    if (!process.env.BASE_URL) {
+    const baseUrl = getRepoEnvValue('BASE_URL');
+    if (!baseUrl) {
       throw new Error('Missing BASE_URL: set it in your .env file');
     }
 
-    const targetUrl = pathValue ? new URL(pathValue, process.env.BASE_URL).toString() : process.env.BASE_URL;
+    const targetUrl = pathValue ? new URL(pathValue, baseUrl).toString() : baseUrl;
     await this.page.goto(targetUrl);
   }
 }
