@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -32,13 +32,13 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'],
-    ['allure-playwright']
-  ] ,
+    ['allure-playwright'],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     headless: true,
     launchOptions: {
-      slowMo: 1000
+      slowMo: 1000,
     },
 
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -48,8 +48,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    baseURL: process.env.BASE_URL, // 👈 dynamic baseURL
-
+    baseURL: process.env.BASE_URL,
   },
 
   /* Configure projects for major browsers */
@@ -58,17 +57,15 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-  
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-  
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
@@ -97,4 +94,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-
