@@ -38,20 +38,22 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
 
+      # Upload Playwright JSON results (for merging later)
+      - name: Upload Playwright JSON results
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.browser }}
+          path: test-results # 👈 ensure this is the folder where JSON reporter outputs
+
+      # Generate Allure report (per browser)
       - name: Generate Allure Report
         run: npx allure generate allure-results --clean -o allure-report
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.browser }}
           path: allure-report
-
-      - name: Upload JSON results
-        uses: actions/upload-artifact@v4
-        with:
-          name: results-${{ matrix.browser }}
-          path: playwright-report
 
   merge-report:
     runs-on: ubuntu-latest
@@ -65,7 +67,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Download all results
+      - name: Download all Playwright JSON results
         uses: actions/download-artifact@v4
         with:
           path: results
