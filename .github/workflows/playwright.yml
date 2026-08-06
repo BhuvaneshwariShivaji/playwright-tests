@@ -37,20 +37,21 @@ jobs:
           BASE_URL: https://www.saucedemo.com
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+
       - name: Generate Allure Report
         run: npx allure generate allure-results --clean -o allure-report
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
-            name: allure-report
-            path: allure-report
-        
-       - name: Upload JSON results
-         uses: actions/upload-artifact@v4
-         with:
-             name: results-${{ matrix.browser }}
-             path: playwright-report
+          name: allure-report
+          path: allure-report
+
+      - name: Upload JSON results
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.browser }}
+          path: playwright-report
 
   merge-report:
     runs-on: ubuntu-latest
