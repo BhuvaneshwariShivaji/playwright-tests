@@ -78,6 +78,3 @@ jobs:
         with:
           name: playwright-report-combined
           path: playwright-report
-        with:
-          name: playwright-report-combined
-          path: playwright-report
