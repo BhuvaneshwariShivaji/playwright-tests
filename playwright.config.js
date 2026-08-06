@@ -35,7 +35,7 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-html-report' }],
     ['allure-playwright'],
     ['json', { outputFile: 'playwright-results/test-results.json' }]
-  ],,
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     headless: true,
