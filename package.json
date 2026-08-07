@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "allure:report": "powershell -ExecutionPolicy Bypass -File ./generate-allure-report.ps1",
-    "allure:open": "npx allure open allure-report"
+    "allure:dashboard": "node ./generate-allure-dashboard.js",
+    "allure:dashboard:month": "node ./generate-allure-dashboard.js"
   },
   "keywords": [],
   "author": "",

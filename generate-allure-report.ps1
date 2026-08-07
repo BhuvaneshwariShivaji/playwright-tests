@@ -16,5 +16,10 @@ if (Test-Path "$reportDir\history") {
 
 npx allure generate $resultsDir --clean -o $reportDir
 
+Write-Host "Generating dashboard from Allure history..."
+node ./generate-allure-dashboard.js
+
 Write-Host "Allure report generated at $reportDir"
-Write-Host "Open it with: npx allure open $reportDir"
+Write-Host "Dashboard generated at $reportDir\dashboard.html"
+Write-Host "Open the report with: npx allure open $reportDir"
+Write-Host "Open the dashboard in a browser: $reportDir\dashboard.html"
